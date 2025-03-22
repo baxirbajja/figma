@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Product Management</title>
+        <link rel="stylesheet" href="globals.css" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <main class="frame">
+            <div class="div">
+                <header>
+                    <h1 class="text-wrapper-21">gestion des produits</h1>
+                    <p class="text-wrapper-20">
+                        veuillez seléctionnner un thémes pour votre site
+                    </p>
+                </header>
+                <section class="search-section">
+                    <div class="overlap">
+                        <label for="search" class="visually-hidden"
+                            >Recherche</label
+                        >
+                        <input
+                            type="search"
+                            id="search"
+                            class="text-wrapper"
+                            placeholder="Recherche"
+                        />
+                        <img
+                            class="mask"
+                            src="img/mask.svg"
+                            alt="Search icon"
+                        />
+                    </div>
+                    <div class="overlap-group">
+                        <select
+                            class="rectangle"
+                            aria-label="Language selection"
+                        >
+                            <option value="fr" selected>Fr</option>
+                        </select>
+                        <img
+                            class="vector-stroke"
+                            src="img/vector-stroke.svg"
+                            alt="Dropdown arrow"
+                        />
+                    </div>
+                    <button class="overlap-2">
+                        <div class="rectangle-2"></div>
+                        <span class="nouveau-produit">NOUVEAU PRODUIT</span>
+                        <img
+                            class="vector"
+                            src="img/vector-8.svg"
+                            alt="Add icon"
+                        />
+                    </button>
+                </section>
+                <nav class="product-categories">
+                    <ul>
+                        <li>
+                            <a href="#" class="text-wrapper-3">Hot Dishes</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-wrapper-4">Cold Dishes</a>
+                        </li>
+                        <li><a href="#" class="text-wrapper-5">Soup</a></li>
+                        <li><a href="#" class="text-wrapper-6">Grill</a></li>
+                        <li>
+                            <a href="#" class="text-wrapper-7">Appetizer</a>
+                        </li>
+                        <li><a href="#" class="text-wrapper-8">Dessert</a></li>
+                    </ul>
+                    <div class="overlap-3">
+                        <img
+                            class="img"
+                            src="img/vector-18.svg"
+                            alt="Decorative line"
+                        />
+                        <img
+                            class="vector-2"
+                            src="img/vector-19.svg"
+                            alt="Active category indicator"
+                        />
+                    </div>
+                </nav>
+                <section class="product-list">
+                    <header class="product-list-header">
+                        <span class="text-wrapper-15">Nom</span>
+                        <span class="text-wrapper-16">Description</span>
+                        <span class="text-wrapper-17">Emporter</span>
+                        <span class="text-wrapper-19">Livraison</span>
+                        <span class="INGREDIENTS"
+                            ><span class="span">I</span
+                            ><span class="span">NGREDIENTS</span></span
+                        >
+                        <span class="title">Title</span>
+                    </header>
+                    <article class="overlap-4 product-item">
+                        <div class="images">
+                            <img
+                                class="image"
+                                src="img/image-9-4.png"
+                                alt="Product image 1"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-8-3.png"
+                                alt="Product image 2"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-7-4.png"
+                                alt="Product image 3"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-6.png"
+                                alt="Product image 4"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-5-2.png"
+                                alt="Product image 5"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-4.png"
+                                alt="Product image 6"
+                            />
+                        </div>
+                        <h2 class="text-wrapper-12">Poulet Frit</h2>
+                        <p class="lorem-ipsum-dolor">
+                            Lorem ipsum dolor sit amet, <br />consectetuer
+                            adipiscing elit
+                        </p>
+                        <span class="text-wrapper-13">15,00€</span>
+                        <span class="text-wrapper-14">15,00€</span>
+                        <div class="ingredients">
+                            <span class="overlap-5"
+                                ><span class="text-wrapper-9">Salade</span
+                                ><button
+                                    class="text-wrapper-10"
+                                    aria-label="Remove Salade"
+                                >
+                                    x
+                                </button></span
+                            >
+                            <span class="overlap-6"
+                                ><span class="text-wrapper-11">Olive</span
+                                ><button
+                                    class="text-wrapper-10"
+                                    aria-label="Remove Olive"
+                                >
+                                    x
+                                </button></span
+                            >
+                            <span class="overlap-7"
+                                ><span class="text-wrapper-9">Salade</span
+                                ><button
+                                    class="text-wrapper-10"
+                                    aria-label="Remove Salade"
+                                >
+                                    x
+                                </button></span
+                            >
+                            <span class="overlap-8"
+                                ><span class="text-wrapper-11">Olive</span
+                                ><button
+                                    class="text-wrapper-10"
+                                    aria-label="Remove Olive"
+                                >
+                                    x
+                                </button></span
+                            >
+                        </div>
+                        <p class="p">
+                            Lorem ipsum dolor sit amet, <br />consectetuer
+                            adipiscing elit
+                        </p>
+                        <div class="actions">
+                            <button
+                                class="vector-3"
+                                aria-label="Edit product"
+                            ></button>
+                            <button
+                                class="vector-4"
+                                aria-label="Delete product"
+                            ></button>
+                            <button
+                                class="vector-5"
+                                aria-label="Duplicate product"
+                            ></button>
+                            <button
+                                class="vector-6"
+                                aria-label="More options"
+                            ></button>
+                        </div>
+                    </article>
+                    <article class="overlap-9 product-item">
+                        <div class="images">
+                            <img
+                                class="image"
+                                src="img/image-9-3.png"
+                                alt="Product image 1"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-8-4.png"
+                                alt="Product image 2"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-7-3.png"
+                                alt="Product image 3"
+                            />
+                            <img
+                                class="image"
+                                src="img/image.png"
+                                alt="Product image 4"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-5-4.png"
+                                alt="Product image 5"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-4-2.png"
+                                alt="Product image 6"
+                            />
+                        </div>
+                        <h2 class="text-wrapper-12">Poulet Frit</h2>
+                        <p class="lorem-ipsum-dolor">
+                            Lorem ipsum dolor sit amet, <br />consectetuer
+                            adipiscing elit
+                        </p>
+                        <span class="text-wrapper-13">15,00€</span>
+                        <span class="text-wrapper-14">15,00€</span>
+                        <div class="ingredients">
+                            <span class="overlap-5"
+                                ><span class="text-wrapper-9">Salade</span
+                                ><button
+                                    class="text-wrapper-10"
+                                    aria-label="Remove Salade"
+                                >
+                                    x
+                                </button></span
+                            >
+                            <span class="overlap-6"
+                                ><span class="text-wrapper-11">Olive</span
+                                ><button
+                                    class="text-wrapper-10"
+                                    aria-label="Remove Olive"
+                                >
+                                    x
+                                </button></span
+                            >
+                            <span class="overlap-7"
+                                ><span class="text-wrapper-9">Salade</span
+                                ><button
+                                    class="text-wrapper-10"
+                                    aria-label="Remove Salade"
+                                >
+                                    x
+                                </button></span
+                            >
+                            <span class="overlap-8"
+                                ><span class="text-wrapper-11">Olive</span
+                                ><button
+                                    class="text-wrapper-10"
+                                    aria-label="Remove Olive"
+                                >
+                                    x
+                                </button></span
+                            >
+                        </div>
+                        <p class="p">
+                            Lorem ipsum dolor sit amet, <br />consectetuer
+                            adipiscing elit
+                        </p>
+                        <div class="actions">
+                            <button
+                                class="vector-3"
+                                aria-label="Edit product"
+                            ></button>
+                            <button
+                                class="vector-4"
+                                aria-label="Delete product"
+                            ></button>
+                            <button
+                                class="vector-5"
+                                aria-label="Duplicate product"
+                            ></button>
+                            <button
+                                class="vector-6"
+                                aria-label="More options"
+                            ></button>
+                        </div>
+                    </article>
+                    <article class="overlap-10 product-item">
+                        <div class="images">
+                            <img
+                                class="image"
+                                src="img/image-9.png"
+                                alt="Product image 1"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-8-2.png"
+                                alt="Product image 2"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-7-2.png"
+                                alt="Product image 3"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-6-3.png"
+                                alt="Product image 4"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-5-3.png"
+                                alt="Product image 5"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-4-3.png"
+                                alt="Product image 6"
+                            />
+                        </div>
+                        <h2 class="text-wrapper-12">Poulet Frit</h2>
+                        <p class="lorem-ipsum-dolor">
+                            Lorem ipsum dolor sit amet, <br />consectetuer
+                            adipiscing elit
+                        </p>
+                        <span class="text-wrapper-13">15,00€</span>
+                        <span class="text-wrapper-14">15,00€</span>
+                        <div class="ingredients">
+                            <span class="overlap-5"
+                                ><span class="text-wrapper-9">Salade</span
+                                ><button
+                                    class="text-wrapper-10"
+                                    aria-label="Remove Salade"
+                                >
+                                    x
+                                </button></span
+                            >
+                            <span class="overlap-6"
+                                ><span class="text-wrapper-11">Olive</span
+                                ><button
+                                    class="text-wrapper-10"
+                                    aria-label="Remove Olive"
+                                >
+                                    x
+                                </button></span
+                            >
+                            <span class="overlap-7"
+                                ><span class="text-wrapper-9">Salade</span
+                                ><button
+                                    class="text-wrapper-10"
+                                    aria-label="Remove Salade"
+                                >
+                                    x
+                                </button></span
+                            >
+                            <span class="overlap-8"
+                                ><span class="text-wrapper-11">Olive</span
+                                ><button
+                                    class="text-wrapper-10"
+                                    aria-label="Remove Olive"
+                                >
+                                    x
+                                </button></span
+                            >
+                        </div>
+                        <p class="p">
+                            Lorem ipsum dolor sit amet, <br />consectetuer
+                            adipiscing elit
+                        </p>
+                        <div class="actions">
+                            <button
+                                class="vector-3"
+                                aria-label="Edit product"
+                            ></button>
+                            <button
+                                class="vector-4"
+                                aria-label="Delete product"
+                            ></button>
+                            <button
+                                class="vector-5"
+                                aria-label="Duplicate product"
+                            ></button>
+                            <button
+                                class="vector-6"
+                                aria-label="More options"
+                            ></button>
+                        </div>
+                    </article>
+                    <article class="overlap-11 product-item">
+                        <div class="images">
+                            <img
+                                class="image"
+                                src="img/image-9-2.png"
+                                alt="Product image 1"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-8.png"
+                                alt="Product image 2"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-7.png"
+                                alt="Product image 3"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-6-2.png"
+                                alt="Product image 4"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-5.png"
+                                alt="Product image 5"
+                            />
+                            <img
+                                class="image"
+                                src="img/image-4-4.png"
+                                alt="Product image 6"
+                            />
+                        </div>
+                        <h2 class="text-wrapper-12">Poulet Frit</h2>
+                        <p class="lorem-ipsum-dolor">
+                            Lorem ipsum dolor sit amet, <br />consectetuer
+                            adipiscing elit
+                        </p>
+                        <span class="text-wrapper-13">15,00€</span>
+                        <span class="text-wrapper-14">15,00€</span>
+                        <div class="ingredients">
+                            <span class="overlap-5"
+                                ><span class="text-wrapper-9">Salade</span
+                                ><button
+                                    class="text-wrapper-10"
+                                    aria-label="Remove Salade"
+                                >
+                                    x
+                                </button></span
+                            >
+                            <span class="overlap-6"
+                                ><span class="text-wrapper-11">Olive</span
+                                ><button
+                                    class="text-wrapper-10"
+                                    aria-label="Remove Olive"
+                                >
+                                    x
+                                </button></span
+                            >
+                            <span class="overlap-7"
+                                ><span class="text-wrapper-9">Salade</span
+                                ><button
+                                    class="text-wrapper-10"
+                                    aria-label="Remove Salade"
+                                >
+                                    x
+                                </button></span
+                            >
+                            <span class="overlap-8"
+                                ><span class="text-wrapper-11">Olive</span
+                                ><button
+                                    class="text-wrapper-10"
+                                    aria-label="Remove Olive"
+                                >
+                                    x
+                                </button></span
+                            >
+                        </div>
+                        <p class="p">
+                            Lorem ipsum dolor sit amet, <br />consectetuer
+                            adipiscing elit
+                        </p>
+                        <div class="actions">
+                            <button
+                                class="vector-3"
+                                aria-label="Edit product"
+                            ></button>
+                            <button
+                                class="vector-4"
+                                aria-label="Delete product"
+                            ></button>
+                            <button
+                                class="vector-5"
+                                aria-label="Duplicate product"
+                            ></button>
+                            <button
+                                class="vector-6"
+                                aria-label="More options"
+                            ></button>
+                        </div>
+                    </article>
+                </section>
+                <nav class="pagination" aria-label="Pagination">
+                    <button class="overlap-13" aria-label="Page 1">
+                        <div class="text-wrapper-18">1</div>
+                    </button>
+                    <button class="overlap-12" aria-label="Page 2">
+                        <div class="text-wrapper-18">2</div>
+                    </button>
+                    <button class="div-wrapper" aria-label="Page 3">
+                        <div class="text-wrapper-18">3</div>
+                    </button>
+                    <button class="vector-wrapper" aria-label="Next page">
+                        <img
+                            class="vector-7"
+                            src="img/vector-16.svg"
+                            alt="Next page arrow"
+                        />
+                    </button>
+                </nav>
+            </div>
+        </main>
+    </body>
+</html>
