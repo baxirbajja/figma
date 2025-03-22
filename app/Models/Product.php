@@ -18,17 +18,17 @@ class Product extends Model
         'name',
         'description',
         'price',
-        'image_path',
+        'is_active',
         'category_id',
+        'image_path',
         'sku',
         'stock',
-        'active'
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
+        'is_active' => 'boolean',
         'stock' => 'integer',
-        'active' => 'boolean',
     ];
 
     /**
@@ -54,6 +54,6 @@ class Product extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('active', true);
+        return $query->where('is_active', true);
     }
 }

@@ -5,13 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
+    {
+        return redirect()->route('categories.manage');
+    }
+
+    /**
+     * Display a listing of the resource for management.
+     */
+    public function manage(Request $request)
     {
         $query = Category::query();
 
@@ -19,12 +28,15 @@ class CategoryController extends Controller
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('slug', 'like', "%{$search}%");
+                  ->orWhere('description', 'like', "%{$search}%")
+                  ->orWhere('meta_title', 'like', "%{$search}%");
             });
         }
 
-        $categories = $query->orderBy('sort_order')->paginate(10);
-        return view('categories.index', compact('categories'));
+        $categories = $query->with('products')
+                          ->paginate(10);
+
+        return view('categories.manage', compact('categories'));
     }
 
     /**
@@ -32,7 +44,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -41,34 +53,44 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'icon' => 'required|string|max:50',
-            'sort_order' => 'required|integer|min:0',
+            'name' => 'required|string|max:255|unique:categories',
+            'description' => 'nullable|string',
+            'meta_title' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $validated['slug'] = Str::slug($validated['name']);
         $validated['is_active'] = true;
 
-        Category::create($validated);
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '_' . $image->getClientOriginalName();
+            $path = $image->storeAs('categories', $filename, 'public');
+            $validated['image'] = $path;
+        }
 
-        return redirect()->route('categories.index')
-            ->with('success', 'Category created successfully.');
+        $category = Category::create($validated);
+
+        return redirect()->route('categories.manage')
+            ->with('success', 'Catégorie créée avec succès.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Category $category)
     {
-        //
+        $category->load('products');
+        return view('categories.show', compact('category'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Category $category)
     {
-        //
+        return view('categories.edit', compact('category'));
     }
 
     /**
@@ -77,18 +99,33 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'icon' => 'required|string|max:50',
-            'sort_order' => 'required|integer|min:0',
+            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
+            'description' => 'nullable|string',
+            'meta_title' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'is_active' => 'boolean'
         ]);
 
         $validated['slug'] = Str::slug($validated['name']);
-        
+        $validated['is_active'] = $request->has('is_active');
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($category->image) {
+                Storage::disk('public')->delete($category->image);
+            }
+
+            $image = $request->file('image');
+            $filename = time() . '_' . $image->getClientOriginalName();
+            $path = $image->storeAs('categories', $filename, 'public');
+            $validated['image'] = $path;
+        }
+
         $category->update($validated);
 
-        return redirect()->route('categories.index')
-            ->with('success', 'Category updated successfully.');
+        return redirect()->route('categories.manage')
+            ->with('success', 'Catégorie mise à jour avec succès.');
     }
 
     /**
@@ -96,15 +133,19 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        // Check if category has products
         if ($category->products()->exists()) {
-            return redirect()->route('categories.index')
-                ->with('error', 'Cannot delete category that has products. Please reassign or delete the products first.');
+            return redirect()->route('categories.manage')
+                ->with('error', 'Impossible de supprimer une catégorie qui contient des produits. Veuillez d\'abord réassigner ou supprimer les produits.');
+        }
+
+        // Delete image if exists
+        if ($category->image) {
+            Storage::disk('public')->delete($category->image);
         }
 
         $category->delete();
 
-        return redirect()->route('categories.index')
-            ->with('success', 'Category deleted successfully.');
+        return redirect()->route('categories.manage')
+            ->with('success', 'Catégorie supprimée avec succès.');
     }
 }

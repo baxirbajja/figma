@@ -32,7 +32,7 @@ class ProductController extends Controller
         }
 
         $products = $query->paginate(10);
-        $categories = Category::orderBy('sort_order')->get();
+        $categories = Category::all();
 
         return view('products.index', compact('products', 'categories'));
     }
@@ -43,7 +43,7 @@ class ProductController extends Controller
     public function create()
     {
         $ingredients = Ingredient::active()->get();
-        $categories = Category::orderBy('sort_order')->get();
+        $categories = Category::all();
         return view('products.create', compact('ingredients', 'categories'));
     }
 
@@ -101,7 +101,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $ingredients = Ingredient::active()->get();
-        $categories = Category::orderBy('sort_order')->get();
+        $categories = Category::all();
         $product->load(['ingredients', 'category']);
         return view('products.edit', compact('product', 'ingredients', 'categories'));
     }
