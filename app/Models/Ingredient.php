@@ -2,33 +2,31 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Product;
 
 class Ingredient extends Model
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'description',
-        'unit',
-        'cost_per_unit',
-        'stock',
-        'active'
+        'reference',
+        'name_fr',
+        'name_en',
+        'name_it',
+        'is_active'
     ];
 
     protected $casts = [
-        'cost_per_unit' => 'decimal:2',
-        'active' => 'boolean',
+        'is_active' => 'boolean'
     ];
 
     /**
      * Get the products that use this ingredient.
      */
-    public function products()
+    public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)
             ->withPivot('quantity', 'unit')
@@ -40,6 +38,6 @@ class Ingredient extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('active', true);
+        return $query->where('is_active', true);
     }
 }
