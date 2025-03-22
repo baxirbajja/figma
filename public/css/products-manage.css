@@ -1,0 +1,378 @@
+/* Products Management Page */
+.products-container {
+    padding: 2rem;
+    background-color: #ffffff;
+}
+
+.products-content {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: -2.8px -2.8px 8px #ffffffcf,
+                5.9px 6.8px 15.5px #becde247,
+                inset 3.5px 3.5px 6px #ffffff26;
+    padding: 2rem;
+    max-width: 1232px;
+    margin: 0 auto;
+}
+
+/* Header */
+.page-title {
+    font-family: "Poppins", sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #1F1F1F;
+    margin-bottom: 0.5rem;
+    text-transform: capitalize;
+}
+
+.page-subtitle {
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    color: #5E5E5E;
+    margin-bottom: 2rem;
+}
+
+/* Controls Row */
+.controls-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+/* Toggle Switch */
+.toggle-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.toggle {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 22px;
+}
+
+.toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #EBEBEB;
+    border-radius: 15px;
+    transition: .4s;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    right: 0;
+    bottom: 0;
+    background-color: #D11253;
+    border-radius: 50%;
+    transition: .4s;
+}
+
+.toggle-text {
+    position: absolute;
+    left: 7px;
+    top: 5px;
+    font-family: "Poppins", sans-serif;
+    font-size: 9px;
+    color: #5E5E5E;
+}
+
+.toggle-label {
+    font-family: "Poppins", sans-serif;
+    font-size: 10px;
+    color: #5E5E5E;
+}
+
+/* Search Bar */
+.search-bar {
+    position: relative;
+    width: 248px;
+}
+
+.search-bar input {
+    width: 100%;
+    height: 44px;
+    padding: 0 2.5rem 0 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #ffffff;
+    box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: "Poppins", sans-serif;
+    font-size: 11px;
+    color: #5E5E5E;
+}
+
+.search-button {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #5E5E5E;
+    cursor: pointer;
+}
+
+/* Language Selector */
+.lang-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 53px;
+    height: 44px;
+    padding: 0 1rem;
+    background-color: #ffffff;
+    border-radius: 4px;
+    box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: "Poppins", sans-serif;
+    font-size: 10.6px;
+    color: #5E5E5E;
+}
+
+/* New Product Button */
+.btn-new-product {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 47px;
+    padding: 0 2rem;
+    background-color: #D12154;
+    border: none;
+    border-radius: 4px;
+    font-family: "Poppins", sans-serif;
+    font-size: 10px;
+    color: #F2F5FA !important;
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-new-product:hover {
+    background-color: #b01847;
+}
+
+/* Category Navigation */
+.category-nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin: 2rem 0;
+    border-bottom: 1px solid #E2E8F0;
+    padding-bottom: 1rem;
+}
+
+.category-link {
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    color: #5E5E5E;
+    text-decoration: none;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.category-link:hover {
+    color: #D11253;
+    text-decoration: none;
+}
+
+.category-link.active {
+    color: #D11253;
+    border-bottom-color: #D11253;
+}
+
+.more-button {
+    background: none;
+    border: none;
+    color: #5E5E5E;
+    cursor: pointer;
+}
+
+/* Products Table */
+.table-container {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.products-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.products-table th {
+    padding: 1rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    color: #1F1F1F;
+    text-align: left;
+    background-color: #F8FAFC;
+}
+
+.products-table td {
+    padding: 1rem;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    color: #4A5568;
+    border-top: 1px solid #E2E8F0;
+    vertical-align: middle;
+}
+
+/* Product Images */
+.product-images {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.product-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.no-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #F7FAFC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #A0AEC0;
+}
+
+/* Toggle Small */
+.toggle.small {
+    width: 38px;
+    height: 18px;
+}
+
+.toggle.small .toggle-slider:before {
+    width: 18px;
+    height: 18px;
+}
+
+/* Ingredients List */
+.ingredients-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.ingredient-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    background: #F7FAFC;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+.remove-ingredient {
+    background: none;
+    border: none;
+    color: #CBD5E0;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-action {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    background: white;
+    color: #4A5568;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.btn-action:hover {
+    border-color: #D11253;
+    color: #D11253;
+    text-decoration: none;
+}
+
+.btn-action.delete {
+    color: #4A5568;
+}
+
+.btn-action.delete:hover {
+    background-color: #FEE2E2;
+    border-color: #EF4444;
+    color: #EF4444;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.page-item {
+    margin: 0 0.25rem;
+}
+
+.page-link {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #4A5568;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    transition: all 0.2s;
+    padding: 0;
+    text-decoration: none;
+}
+
+.page-link:hover {
+    background: #F7FAFC;
+    color: #4A5568;
+    text-decoration: none;
+}
+
+.page-item.active .page-link {
+    background: #D11253;
+    color: white;
+}
