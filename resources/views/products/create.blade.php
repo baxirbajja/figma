@@ -54,6 +54,61 @@
                             </div>
                         </div>
 
+                        <!-- SKU and Stock -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">SKU</label>
+                                <input type="text" 
+                                       name="sku" 
+                                       class="form-control @error('sku') is-invalid @enderror" 
+                                       value="{{ old('sku') }}" 
+                                       required>
+                                @error('sku')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Stock</label>
+                                <input type="number" 
+                                       name="stock" 
+                                       class="form-control @error('stock') is-invalid @enderror" 
+                                       value="{{ old('stock', 0) }}" 
+                                       min="0" 
+                                       required>
+                                @error('stock')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Category Selection -->
+                        <div class="mb-4">
+                            <label class="form-label">Catégorie</label>
+                            <select name="category_id" class="form-select @error('category_id') is-invalid @enderror" required>
+                                <option value="">Sélectionner une catégorie</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('category_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-4">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" 
+                                      class="form-control @error('description') is-invalid @enderror" 
+                                      rows="3">{{ old('description') }}</textarea>
+                            @error('description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Prices -->
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <label class="form-label">Prix emporter</label>
@@ -87,17 +142,6 @@
                             </div>
                         </div>
 
-                        <div class="mb-4">
-                            <label class="form-label">Title</label>
-                            <input type="text" 
-                                   name="title" 
-                                   class="form-control @error('title') is-invalid @enderror" 
-                                   value="{{ old('title') }}">
-                            @error('title')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
                         <!-- Ingredients Section -->
                         <div class="mb-4">
                             <label class="form-label">Ingredients</label>
@@ -108,116 +152,24 @@
                                                name="ingredients[]" 
                                                value="{{ $ingredient->id }}" 
                                                id="ingredient{{ $ingredient->id }}" 
-                                               class="form-check-input">
+                                               class="form-check-input"
+                                               {{ in_array($ingredient->id, old('ingredients', [])) ? 'checked' : '' }}>
                                         <label class="form-check-label" for="ingredient{{ $ingredient->id }}">
                                             {{ $ingredient->name }}
                                         </label>
                                     </div>
                                 @endforeach
                             </div>
-                        </div>
-
-                        <!-- Categories -->
-                        <div class="mb-4">
-                            <label class="form-label">Catégorie</label>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label class="d-block mb-2">Boisson:</label>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="drink1">
-                                        <label class="form-check-label" for="drink1">
-                                            Coca-cola 33cl
-                                            <span class="text-muted">+ 1.50€</span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="drink2">
-                                        <label class="form-check-label" for="drink2">
-                                            Fanta 33cl
-                                            <span class="text-muted">+ 1.50€</span>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label class="d-block mb-2">Accompagnement:</label>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="side1">
-                                        <label class="form-check-label" for="side1">
-                                            Frites Belge
-                                            <span class="text-muted">+ 1.50€</span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="side2">
-                                        <label class="form-check-label" for="side2">
-                                            Potatoes
-                                            <span class="text-muted">+ 1.50€</span>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label class="d-block mb-2">Choix sauce:</label>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="sauce1">
-                                        <label class="form-check-label" for="sauce1">
-                                            Andalouse
-                                            <span class="text-muted">+ 0.50€</span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="sauce2">
-                                        <label class="form-check-label" for="sauce2">
-                                            Mayonnaise
-                                            <span class="text-muted">+ 0.50€</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Status Toggles -->
-                        <div class="mb-4">
-                            <div class="form-check form-switch">
-                                <input type="checkbox" 
-                                       name="active" 
-                                       id="active" 
-                                       class="form-check-input" 
-                                       value="1" 
-                                       {{ old('active', '1') == '1' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="active">
-                                    Actif dans la menu
-                                </label>
-                            </div>
-                            <div class="form-check form-switch">
-                                <input type="checkbox" 
-                                       name="featured" 
-                                       id="featured" 
-                                       class="form-check-input" 
-                                       value="1" 
-                                       {{ old('featured') ? 'checked' : '' }}>
-                                <label class="form-check-label" for="featured">
-                                    Produit visible dans la premiere date
-                                </label>
-                            </div>
-                            <div class="form-check form-switch">
-                                <input type="checkbox" 
-                                       name="show_in_menu" 
-                                       id="show_in_menu" 
-                                       class="form-check-input" 
-                                       value="1" 
-                                       {{ old('show_in_menu') ? 'checked' : '' }}>
-                                <label class="form-check-label" for="show_in_menu">
-                                    Produit visible dans le premier état
-                                </label>
-                            </div>
+                            @error('ingredients')
+                                <div class="text-danger mt-2">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <!-- Submit Button -->
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary px-4">
-                                AJOUTER
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-plus-circle me-2"></i>
+                                Créer le produit
                             </button>
                         </div>
                     </div>

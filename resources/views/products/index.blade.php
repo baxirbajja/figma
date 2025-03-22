@@ -43,23 +43,17 @@
             <!-- Tabs -->
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Hot Dishes</a>
+                    <a class="nav-link {{ !request('category') ? 'active' : '' }}" href="{{ route('products.index') }}">All</a>
                 </li>
+                @foreach($categories as $category)
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Cold Dishes</a>
+                    <a class="nav-link {{ request('category') == $category->id ? 'active' : '' }}" 
+                       href="{{ route('products.index', ['category' => $category->id]) }}">
+                        <i class="bi {{ $category->icon }}"></i>
+                        {{ $category->name }}
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Soup</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Grill</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Appetizer</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Dessert</a>
-                </li>
+                @endforeach
             </ul>
 
             <!-- Product Table -->
@@ -69,6 +63,7 @@
                         <th>Image</th>
                         <th>Nom</th>
                         <th>Description</th>
+                        <th>Catégorie</th>
                         <th>Emporter</th>
                         <th>Livraison</th>
                         <th>Ingrédients</th>
@@ -87,6 +82,16 @@
                         </td>
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->description }}</td>
+                        <td>
+                            @if($product->category)
+                                <span class="badge bg-secondary">
+                                    <i class="bi {{ $product->category->icon }}"></i>
+                                    {{ $product->category->name }}
+                                </span>
+                            @else
+                                <span class="badge bg-light text-dark">No Category</span>
+                            @endif
+                        </td>
                         <td>{{ number_format($product->price, 2) }}€</td>
                         <td>{{ number_format($product->price, 2) }}€</td>
                         <td>
@@ -107,7 +112,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="text-center">No products found.</td>
+                        <td colspan="8" class="text-center">No products found.</td>
                     </tr>
                     @endforelse
                 </tbody>

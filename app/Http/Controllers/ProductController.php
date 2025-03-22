@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use App\Models\Ingredient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -12,10 +13,28 @@ class ProductController extends Controller
     /**
      * Display a listing of the products.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('ingredients')->paginate(10);
-        return view('products.index', compact('products'));
+        $query = Product::with(['ingredients', 'category']);
+        
+        // Filter by category if provided
+        if ($request->has('category')) {
+            $query->where('category_id', $request->category);
+        }
+        
+        // Search functionality
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        $products = $query->paginate(10);
+        $categories = Category::orderBy('sort_order')->get();
+
+        return view('products.index', compact('products', 'categories'));
     }
 
     /**
@@ -24,7 +43,8 @@ class ProductController extends Controller
     public function create()
     {
         $ingredients = Ingredient::active()->get();
-        return view('products.create', compact('ingredients'));
+        $categories = Category::orderBy('sort_order')->get();
+        return view('products.create', compact('ingredients', 'categories'));
     }
 
     /**
@@ -36,6 +56,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
+            'category_id' => 'required|exists:categories,id',
             'sku' => 'required|string|unique:products,sku',
             'stock' => 'required|integer|min:0',
             'image' => 'nullable|image|max:2048',
@@ -70,7 +91,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $product->load('ingredients');
+        $product->load(['ingredients', 'category']);
         return view('products.show', compact('product'));
     }
 
@@ -80,8 +101,9 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $ingredients = Ingredient::active()->get();
-        $product->load('ingredients');
-        return view('products.edit', compact('product', 'ingredients'));
+        $categories = Category::orderBy('sort_order')->get();
+        $product->load(['ingredients', 'category']);
+        return view('products.edit', compact('product', 'ingredients', 'categories'));
     }
 
     /**
@@ -93,6 +115,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
+            'category_id' => 'required|exists:categories,id',
             'sku' => 'required|string|unique:products,sku,' . $product->id,
             'stock' => 'required|integer|min:0',
             'image' => 'nullable|image|max:2048',
