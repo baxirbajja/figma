@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Ingredient;
 use App\Models\Category;
@@ -15,11 +14,12 @@ class Product extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name',
+        'name_fr',
+        'name_en',
+        'name_it',
         'description',
         'price',
         'is_active',
-        'category_id',
         'image_path',
         'sku',
         'stock',
@@ -42,11 +42,19 @@ class Product extends Model
     }
 
     /**
-     * Get the category associated with the product.
+     * Get the categories associated with the product.
      */
-    public function category(): BelongsTo
+    public function categories(): BelongsToMany
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class, 'product_categories');
+    }
+
+    /**
+     * Get the name in the specified language.
+     */
+    public function getNameAttribute($language = 'fr')
+    {
+        return $this->{"name_$language"} ?? $this->name_fr;
     }
 
     /**

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Product;
 
 class Category extends Model
@@ -12,7 +12,9 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'name_fr',
+        'name_en',
+        'name_it',
         'description',
         'meta_title',
         'image',
@@ -24,8 +26,19 @@ class Category extends Model
         'is_active' => 'boolean'
     ];
 
-    public function products(): HasMany
+    /**
+     * Get the products associated with the category.
+     */
+    public function products(): BelongsToMany
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsToMany(Product::class, 'product_categories');
+    }
+
+    /**
+     * Get the name in the specified language.
+     */
+    public function getNameAttribute($language = 'fr')
+    {
+        return $this->{"name_$language"} ?? $this->name_fr;
     }
 }
