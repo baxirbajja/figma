@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Product;
 
 class Category extends Model
@@ -16,7 +16,6 @@ class Category extends Model
         'name_en',
         'name_it',
         'description',
-        'meta_title',
         'image',
         'slug',
         'is_active'
@@ -29,9 +28,9 @@ class Category extends Model
     /**
      * Get the products associated with the category.
      */
-    public function products(): BelongsToMany
+    public function products(): HasMany
     {
-        return $this->belongsToMany(Product::class, 'product_categories');
+        return $this->hasMany(Product::class);
     }
 
     /**

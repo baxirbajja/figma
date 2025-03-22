@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Ingredient;
 use App\Models\Category;
 
@@ -19,14 +20,17 @@ class Product extends Model
         'name_it',
         'description',
         'price',
+        'delivery_price',
         'is_active',
         'image_path',
         'sku',
         'stock',
+        'category_id',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
+        'delivery_price' => 'decimal:2',
         'is_active' => 'boolean',
         'stock' => 'integer',
     ];
@@ -37,16 +41,16 @@ class Product extends Model
     public function ingredients(): BelongsToMany
     {
         return $this->belongsToMany(Ingredient::class)
-            ->withPivot('quantity', 'unit')
+            ->withPivot('quantity')
             ->withTimestamps();
     }
 
     /**
-     * Get the categories associated with the product.
+     * Get the category that owns the product.
      */
-    public function categories(): BelongsToMany
+    public function category(): BelongsTo
     {
-        return $this->belongsToMany(Category::class, 'product_categories');
+        return $this->belongsTo(Category::class);
     }
 
     /**

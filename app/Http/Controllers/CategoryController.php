@@ -23,18 +23,21 @@ class CategoryController extends Controller
     public function manage(Request $request)
     {
         $query = Category::query();
+        $language = $request->get('lang', 'fr');
+        $nameField = "name_$language";
 
         if ($request->has('search')) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%")
-                  ->orWhere('meta_title', 'like', "%{$search}%");
+            
+            $query->where(function($q) use ($search, $nameField) {
+                $q->where($nameField, 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
             });
         }
 
         $categories = $query->with('products')
-                          ->paginate(10);
+                          ->paginate(10)
+                          ->withQueryString();
 
         return view('categories.manage', compact('categories'));
     }
@@ -53,13 +56,14 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:categories',
+            'name_fr' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
+            'name_it' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'meta_title' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $validated['slug'] = Str::slug($validated['name']);
+        $validated['slug'] = Str::slug($validated['name_fr']);
         $validated['is_active'] = true;
 
         // Handle image upload
@@ -99,14 +103,15 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
+            'name_fr' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
+            'name_it' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'meta_title' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'is_active' => 'boolean'
         ]);
 
-        $validated['slug'] = Str::slug($validated['name']);
+        $validated['slug'] = Str::slug($validated['name_fr']);
         $validated['is_active'] = $request->has('is_active');
 
         // Handle image upload

@@ -22,12 +22,16 @@ class ProductController extends Controller
             $query->where('category_id', $request->category);
         }
         
-        // Search functionality
+        // Search functionality with language support
         if ($request->has('search')) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+            $language = $request->get('language', 'fr');
+            $nameField = "name_$language";
+            
+            $query->where(function($q) use ($search, $nameField) {
+                $q->where($nameField, 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%")
+                  ->orWhere('sku', 'like', "%{$search}%");
             });
         }
 
@@ -53,9 +57,12 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name_fr' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
+            'name_it' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
+            'delivery_price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'sku' => 'required|string|unique:products,sku',
             'stock' => 'required|integer|min:0',
@@ -63,7 +70,6 @@ class ProductController extends Controller
             'ingredients' => 'array',
             'ingredients.*.id' => 'exists:ingredients,id',
             'ingredients.*.quantity' => 'required|numeric|min:0',
-            'ingredients.*.unit' => 'required|string',
         ]);
 
         if ($request->hasFile('image')) {
@@ -73,17 +79,17 @@ class ProductController extends Controller
 
         $product = Product::create($validated);
 
+        // Attach ingredients
         if (isset($validated['ingredients'])) {
             foreach ($validated['ingredients'] as $ingredient) {
                 $product->ingredients()->attach($ingredient['id'], [
-                    'quantity' => $ingredient['quantity'],
-                    'unit' => $ingredient['unit']
+                    'quantity' => $ingredient['quantity']
                 ]);
             }
         }
 
         return redirect()->route('products.index')
-            ->with('success', 'Product created successfully.');
+            ->with('success', 'Produit créé avec succès.');
     }
 
     /**
@@ -112,9 +118,12 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name_fr' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
+            'name_it' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
+            'delivery_price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'sku' => 'required|string|unique:products,sku,' . $product->id,
             'stock' => 'required|integer|min:0',
@@ -122,7 +131,6 @@ class ProductController extends Controller
             'ingredients' => 'array',
             'ingredients.*.id' => 'exists:ingredients,id',
             'ingredients.*.quantity' => 'required|numeric|min:0',
-            'ingredients.*.unit' => 'required|string',
         ]);
 
         if ($request->hasFile('image')) {
@@ -135,18 +143,18 @@ class ProductController extends Controller
 
         $product->update($validated);
 
+        // Sync ingredients
         if (isset($validated['ingredients'])) {
             $product->ingredients()->detach();
             foreach ($validated['ingredients'] as $ingredient) {
                 $product->ingredients()->attach($ingredient['id'], [
-                    'quantity' => $ingredient['quantity'],
-                    'unit' => $ingredient['unit']
+                    'quantity' => $ingredient['quantity']
                 ]);
             }
         }
 
         return redirect()->route('products.index')
-            ->with('success', 'Product updated successfully.');
+            ->with('success', 'Produit mis à jour avec succès.');
     }
 
     /**
@@ -158,9 +166,10 @@ class ProductController extends Controller
             Storage::disk('public')->delete($product->image_path);
         }
         
+        $product->ingredients()->detach();
         $product->delete();
 
         return redirect()->route('products.index')
-            ->with('success', 'Product deleted successfully.');
+            ->with('success', 'Produit supprimé avec succès.');
     }
 }

@@ -4,192 +4,196 @@
         <p class="text-gray-600 mb-6">Modifier les détails du produit</p>
 
         <div class="bg-white rounded-lg shadow-sm p-6">
-            <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
-                <div class="row">
-                    <!-- Left Column - Image Upload -->
-                    <div class="col-md-4">
-                        <div class="mb-4">
-                            <div class="position-relative" style="width: 300px; height: 300px;">
-                                <label for="image" class="d-block w-100 h-100 border rounded-lg cursor-pointer overflow-hidden">
-                                    @if($product->image_path)
-                                        <img id="image-preview" src="{{ Storage::url($product->image_path) }}" alt="Preview" class="w-100 h-100 object-cover">
-                                        <div id="image-placeholder" class="w-100 h-100 d-flex align-items-center justify-content-center bg-light d-none">
-                                            <span class="text-gray-500">Click to upload image</span>
-                                        </div>
-                                    @else
-                                        <img id="image-preview" src="#" alt="Preview" class="w-100 h-100 object-cover d-none">
-                                        <div id="image-placeholder" class="w-100 h-100 d-flex align-items-center justify-content-center bg-light">
-                                            <span class="text-gray-500">Click to upload image</span>
-                                        </div>
-                                    @endif
-                                </label>
-                                <input type="file" 
-                                       id="image" 
-                                       name="image" 
-                                       class="position-absolute" 
-                                       style="opacity: 0; width: 0; height: 0;"
-                                       accept="image/*"
-                                       onchange="previewImage(this)">
-                            </div>
-                            @error('image')
-                                <div class="text-danger mt-2">{{ $message }}</div>
+                <!-- Language Tabs -->
+                <ul class="nav nav-tabs mb-3" id="languageTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="french-tab" data-bs-toggle="tab" data-bs-target="#french" type="button" role="tab">
+                            Français
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="english-tab" data-bs-toggle="tab" data-bs-target="#english" type="button" role="tab">
+                            English
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="italian-tab" data-bs-toggle="tab" data-bs-target="#italian" type="button" role="tab">
+                            Italiano
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="languageTabsContent">
+                    <!-- French -->
+                    <div class="tab-pane fade show active" id="french" role="tabpanel">
+                        <div class="mb-3">
+                            <label for="name_fr" class="form-label">Nom (FR)</label>
+                            <input type="text" class="form-control @error('name_fr') is-invalid @enderror" 
+                                   id="name_fr" name="name_fr" value="{{ old('name_fr', $product->name_fr) }}" required>
+                            @error('name_fr')
+                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
 
-                    <!-- Right Column - Product Details -->
-                    <div class="col-md-8">
-                        <!-- Basic Information -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <label class="form-label">Nom</label>
-                                <div class="btn-group w-100" role="group">
-                                    <button type="button" class="btn btn-outline-secondary active">Fr</button>
-                                    <button type="button" class="btn btn-outline-secondary">En</button>
-                                    <button type="button" class="btn btn-outline-secondary">Nl</button>
-                                </div>
-                                <input type="text" 
-                                       name="name" 
-                                       class="form-control mt-2 @error('name') is-invalid @enderror" 
-                                       value="{{ old('name', $product->name) }}" 
-                                       required>
-                                @error('name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
+                    <!-- English -->
+                    <div class="tab-pane fade" id="english" role="tabpanel">
+                        <div class="mb-3">
+                            <label for="name_en" class="form-label">Name (EN)</label>
+                            <input type="text" class="form-control @error('name_en') is-invalid @enderror" 
+                                   id="name_en" name="name_en" value="{{ old('name_en', $product->name_en) }}" required>
+                            @error('name_en')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
+                    </div>
 
-                        <!-- SKU and Stock -->
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <label class="form-label">SKU</label>
-                                <input type="text" 
-                                       name="sku" 
-                                       class="form-control @error('sku') is-invalid @enderror" 
-                                       value="{{ old('sku', $product->sku) }}" 
-                                       required>
-                                @error('sku')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Stock</label>
-                                <input type="number" 
-                                       name="stock" 
-                                       class="form-control @error('stock') is-invalid @enderror" 
-                                       value="{{ old('stock', $product->stock) }}" 
-                                       min="0" 
-                                       required>
-                                @error('stock')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
+                    <!-- Italian -->
+                    <div class="tab-pane fade" id="italian" role="tabpanel">
+                        <div class="mb-3">
+                            <label for="name_it" class="form-label">Nome (IT)</label>
+                            <input type="text" class="form-control @error('name_it') is-invalid @enderror" 
+                                   id="name_it" name="name_it" value="{{ old('name_it', $product->name_it) }}" required>
+                            @error('name_it')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
+                    </div>
+                </div>
 
-                        <!-- Category Selection -->
-                        <div class="mb-4">
-                            <label class="form-label">Catégorie</label>
-                            <select name="category_id" class="form-select @error('category_id') is-invalid @enderror" required>
-                                <option value="">Sélectionner une catégorie</option>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
+                <!-- Other Fields -->
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control @error('description') is-invalid @enderror" 
+                              id="description" name="description">{{ old('description', $product->description) }}</textarea>
+                    @error('description')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Prix emporter</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control @error('price') is-invalid @enderror" 
+                               id="price" name="price" value="{{ old('price', $product->price) }}" required>
+                        <span class="input-group-text">€</span>
+                    </div>
+                    @error('price')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="delivery_price" class="form-label">Prix livraison</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control @error('delivery_price') is-invalid @enderror" 
+                               id="delivery_price" name="delivery_price" value="{{ old('delivery_price', $product->delivery_price) }}" required>
+                        <span class="input-group-text">€</span>
+                    </div>
+                    @error('delivery_price')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="categories" class="form-label">Catégories</label>
+                    <div class="row">
+                        @foreach($categories as $category)
+                            <div class="col-md-4 mb-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" 
+                                           name="category_ids[]" value="{{ $category->id }}"
+                                           id="category_{{ $category->id }}"
+                                           {{ in_array($category->id, old('category_ids', $product->categories->pluck('id')->toArray())) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="category_{{ $category->id }}">
                                         {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('category_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <!-- Description -->
-                        <div class="mb-4">
-                            <label class="form-label">Description</label>
-                            <textarea name="description" 
-                                      class="form-control @error('description') is-invalid @enderror" 
-                                      rows="3">{{ old('description', $product->description) }}</textarea>
-                            @error('description')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <!-- Prices -->
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <label class="form-label">Prix emporter</label>
-                                <div class="input-group">
-                                    <input type="number" 
-                                           name="price" 
-                                           class="form-control @error('price') is-invalid @enderror" 
-                                           value="{{ old('price', $product->price) }}" 
-                                           step="0.01" 
-                                           required>
-                                    <span class="input-group-text">€</span>
+                                    </label>
                                 </div>
-                                @error('price')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Prix livraison</label>
-                                <div class="input-group">
-                                    <input type="number" 
-                                           name="delivery_price" 
-                                           class="form-control @error('delivery_price') is-invalid @enderror" 
-                                           value="{{ old('delivery_price', $product->delivery_price) }}" 
-                                           step="0.01" 
-                                           required>
-                                    <span class="input-group-text">€</span>
-                                </div>
-                                @error('delivery_price')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
+                        @endforeach
+                    </div>
+                    @error('category_ids')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                        <!-- Ingredients Section -->
-                        <div class="mb-4">
-                            <label class="form-label">Ingrédients</label>
-                            <div class="ingredients-container">
-                                @foreach($ingredients as $ingredient)
-                                    @php
-                                        $productIngredient = $product->ingredients->firstWhere('id', $ingredient->id);
-                                    @endphp
-                                    <div class="ingredient-item card mb-2">
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
-                                                <div class="col-md-4">
-                                                    <div class="form-check">
-                                                        <input type="checkbox" 
-                                                               name="ingredients[{{ $ingredient->id }}][id]" 
-                                                               value="{{ $ingredient->id }}" 
-                                                               id="ingredient{{ $ingredient->id }}" 
-                                                               class="form-check-input ingredient-checkbox"
-                                                               {{ $productIngredient ? 'checked' : '' }}
-                                                               onchange="toggleIngredientInputs(this)">
-                                                        <label class="form-check-label" for="ingredient{{ $ingredient->id }}">
-                                                            {{ $ingredient->name }}
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <input type="number" 
-                                                           name="ingredients[{{ $ingredient->id }}][quantity]" 
-                                                           class="form-control ingredient-input" 
+                <div class="mb-3">
+                    <label for="sku" class="form-label">SKU</label>
+                    <input type="text" class="form-control @error('sku') is-invalid @enderror" 
+                           id="sku" name="sku" value="{{ old('sku', $product->sku) }}" required>
+                    @error('sku')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="stock" class="form-label">Stock</label>
+                    <input type="number" class="form-control @error('stock') is-invalid @enderror" 
+                           id="stock" name="stock" value="{{ old('stock', $product->stock) }}" required>
+                    @error('stock')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <div class="position-relative" style="width: 300px; height: 300px;">
+                        <label for="image" class="d-block w-100 h-100 border rounded-lg cursor-pointer overflow-hidden">
+                            <img id="image-preview" src="{{ $product->image_path ? Storage::url($product->image_path) : '#' }}" 
+                                 alt="Preview" class="w-100 h-100 object-cover {{ $product->image_path ? '' : 'd-none' }}">
+                            <div id="image-placeholder" class="w-100 h-100 d-flex align-items-center justify-content-center {{ $product->image_path ? 'd-none' : '' }}">
+                                <i class="bi bi-cloud-upload fs-1"></i>
+                            </div>
+                        </label>
+                        <input type="file" id="image" name="image" class="d-none" accept="image/*">
+                    </div>
+                    @error('image')
+                        <div class="text-danger mt-2">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Ingredients Section -->
+                <div class="mb-3">
+                    <label class="form-label">Ingrédients</label>
+                    <div class="row">
+                        @foreach($ingredients as $ingredient)
+                            @php
+                                $productIngredient = $product->ingredients->where('id', $ingredient->id)->first();
+                            @endphp
+                            <div class="col-md-6 mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input ingredient-checkbox" type="checkbox" 
+                                                   id="ingredient_{{ $ingredient->id }}"
+                                                   data-ingredient-id="{{ $ingredient->id }}"
+                                                   {{ $productIngredient ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="ingredient_{{ $ingredient->id }}">
+                                                {{ $ingredient->name }}
+                                            </label>
+                                        </div>
+                                        <div class="ingredient-details" id="details_{{ $ingredient->id }}" 
+                                             style="display: {{ $productIngredient ? 'block' : 'none' }};">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="number" step="0.01" 
+                                                           class="form-control mb-2"
+                                                           name="ingredients[{{ $ingredient->id }}][quantity]"
                                                            placeholder="Quantité"
-                                                           step="0.01"
-                                                           min="0"
                                                            value="{{ $productIngredient ? $productIngredient->pivot->quantity : '' }}"
-                                                           {{ !$productIngredient ? 'disabled' : '' }}>
+                                                           {{ $productIngredient ? '' : 'disabled' }}>
+                                                    <input type="hidden" name="ingredients[{{ $ingredient->id }}][id]" 
+                                                           value="{{ $ingredient->id }}">
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <select name="ingredients[{{ $ingredient->id }}][unit]" 
-                                                            class="form-select ingredient-input"
-                                                            {{ !$productIngredient ? 'disabled' : '' }}>
-                                                        <option value="">Unité</option>
+                                                <div class="col-md-6">
+                                                    <select class="form-select"
+                                                            name="ingredients[{{ $ingredient->id }}][unit]"
+                                                            {{ $productIngredient ? '' : 'disabled' }}>
                                                         <option value="g" {{ $productIngredient && $productIngredient->pivot->unit == 'g' ? 'selected' : '' }}>Grammes (g)</option>
                                                         <option value="kg" {{ $productIngredient && $productIngredient->pivot->unit == 'kg' ? 'selected' : '' }}>Kilogrammes (kg)</option>
                                                         <option value="ml" {{ $productIngredient && $productIngredient->pivot->unit == 'ml' ? 'selected' : '' }}>Millilitres (ml)</option>
@@ -200,31 +204,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach
+                                </div>
                             </div>
-                            @error('ingredients')
-                                <div class="text-danger mt-2">{{ $message }}</div>
-                            @enderror
-                            @error('ingredients.*.quantity')
-                                <div class="text-danger mt-2">{{ $message }}</div>
-                            @enderror
-                            @error('ingredients.*.unit')
-                                <div class="text-danger mt-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <!-- Submit Button -->
-                        <div class="mt-4">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-check-circle me-2"></i>
-                                Enregistrer les modifications
-                            </button>
-                            <a href="{{ route('products.index') }}" class="btn btn-secondary">
-                                <i class="bi bi-x-circle me-2"></i>
-                                Annuler
-                            </a>
-                        </div>
+                        @endforeach
                     </div>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary">Mettre à jour le produit</button>
+                    <a href="{{ route('products.index') }}" class="btn btn-secondary">Annuler</a>
                 </div>
             </form>
         </div>
@@ -232,33 +220,38 @@
 
     @push('scripts')
     <script>
-        function previewImage(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
+        document.getElementById('image').onchange = function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('image-preview').src = e.target.result;
                     document.getElementById('image-preview').classList.remove('d-none');
                     document.getElementById('image-placeholder').classList.add('d-none');
                 }
-                reader.readAsDataURL(input.files[0]);
+                reader.readAsDataURL(file);
             }
         }
 
-        function toggleIngredientInputs(checkbox) {
-            const container = checkbox.closest('.ingredient-item');
-            const inputs = container.querySelectorAll('.ingredient-input');
-            inputs.forEach(input => {
-                input.disabled = !checkbox.checked;
-                if (!checkbox.checked) {
-                    input.value = '';
-                }
-            });
-        }
-
-        // Initialize ingredient inputs state
         document.addEventListener('DOMContentLoaded', function() {
+            // Handle ingredient checkboxes
             document.querySelectorAll('.ingredient-checkbox').forEach(function(checkbox) {
-                toggleIngredientInputs(checkbox);
+                checkbox.addEventListener('change', function() {
+                    const ingredientId = this.dataset.ingredientId;
+                    const details = document.querySelector(`#details_${ingredientId}`);
+                    const inputs = details.querySelectorAll('input:not([type="hidden"]), select');
+                    
+                    if (this.checked) {
+                        details.style.display = 'block';
+                        inputs.forEach(input => input.disabled = false);
+                    } else {
+                        details.style.display = 'none';
+                        inputs.forEach(input => {
+                            input.disabled = true;
+                            input.value = '';
+                        });
+                    }
+                });
             });
         });
     </script>

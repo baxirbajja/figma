@@ -30,129 +30,92 @@
     
     <div class="main-content">
         <div class="content">
-            <h2 class="mb-3">Gestion des Produits</h2>
-            
-            <!-- Search and Filters -->
-            <div class="mb-4">
-                <form action="{{ route('products.index') }}" method="GET" class="row g-3">
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <input type="text" 
-                                   name="search" 
-                                   class="form-control" 
-                                   placeholder="Rechercher un produit..." 
-                                   value="{{ request('search') }}">
-                            <button class="btn btn-outline-secondary" type="submit">
-                                <i class="bi bi-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <select name="language" class="form-select">
+            <div class="container-fluid px-4">
+                <h2 class="mb-3">Gestion des Produits</h2>
+                
+                <!-- Search & Button -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <form action="{{ route('products.index') }}" method="GET" class="d-flex align-items-center">
+                        <input type="text" name="search" class="form-control w-100" style="width: 300px !important;" 
+                               placeholder="Recherche..." value="{{ request('search') }}">
+                        <select name="language" class="form-select ms-2" style="width: 120px;">
                             <option value="fr" {{ request('language', 'fr') == 'fr' ? 'selected' : '' }}>Français</option>
                             <option value="en" {{ request('language') == 'en' ? 'selected' : '' }}>English</option>
                             <option value="it" {{ request('language') == 'it' ? 'selected' : '' }}>Italiano</option>
                         </select>
-                    </div>
-                    <div class="col-md-3">
-                        <select name="category" class="form-select">
-                            <option value="">Toutes les catégories</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary w-100">
-                            <i class="bi bi-filter me-1"></i> Filtrer
-                        </button>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                    <a href="{{ route('products.create') }}" class="btn btn-danger">+ NOUVEAU PRODUIT</a>
+                </div>
 
-            <!-- Tabs -->
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link {{ !request('category') ? 'active' : '' }}" href="{{ route('products.index') }}">All</a>
-                </li>
-                @foreach($categories as $category)
-                <li class="nav-item">
-                    <a class="nav-link {{ request('category') == $category->id ? 'active' : '' }}" 
-                       href="{{ route('products.index', ['category' => $category->id]) }}">
-                        <i class="bi {{ $category->icon }}"></i>
-                        {{ $category->name }}
-                    </a>
-                </li>
-                @endforeach
-            </ul>
+                <!-- Tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link {{ !request('category') ? 'active' : '' }}" 
+                           href="{{ route('products.index', ['search' => request('search'), 'language' => request('language')]) }}">
+                            Tous
+                        </a>
+                    </li>
+                    @foreach($categories as $category)
+                        <li class="nav-item">
+                            <a class="nav-link {{ request('category') == $category->id ? 'active' : '' }}" 
+                               href="{{ route('products.index', ['category' => $category->id, 'search' => request('search'), 'language' => request('language')]) }}">
+                                {{ $category->{"name_" . (request('language', 'fr'))} }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
 
-            <!-- Product Table -->
-            <table class="table table-striped mt-3">
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Nom</th>
-                        <th>Description</th>
-                        <th>Catégorie</th>
-                        <th>Emporter</th>
-                        <th>Livraison</th>
-                        <th>Ingrédients</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($products as $product)
-                    <tr>
-                        <td>
-                            @if($product->image_path)
-                                <img src="{{ Storage::url($product->image_path) }}" class="rounded" alt="{{ $product->name }}" width="50">
-                            @else
-                                <img src="https://via.placeholder.com/50" class="rounded" alt="No Image">
-                            @endif
-                        </td>
-                        <td>{{ $product->name }}</td>
-                        <td>{{ $product->description }}</td>
-                        <td>
-                            @if($product->category)
-                                <span class="badge bg-secondary">
-                                    <i class="bi {{ $product->category->icon }}"></i>
-                                    {{ $product->category->name }}
-                                </span>
-                            @else
-                                <span class="badge bg-light text-dark">No Category</span>
-                            @endif
-                        </td>
-                        <td>{{ number_format($product->price, 2) }}€</td>
-                        <td>{{ number_format($product->price, 2) }}€</td>
-                        <td>
-                            @if($product->ingredients)
-                                @foreach($product->ingredients as $ingredient)
-                                    <span class="badge bg-secondary">{{ $ingredient->name }}</span>
-                                @endforeach
-                            @endif
-                        </td>
-                        <td>
-                            <a href="{{ route('products.edit', $product) }}" class="btn btn-sm btn-primary">✏️</a>
-                            <form action="{{ route('products.destroy', $product) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this product?')">🗑️</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="8" class="text-center">No products found.</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                <!-- Product Table -->
+                <table class="table table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Nom</th>
+                            <th>Description</th>
+                            <th>Emporter</th>
+                            <th>Livraison</th>
+                            <th>Catégorie</th>
+                            <th>Ingrédients</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($products as $product)
+                            <tr>
+                                <td>
+                                    @if($product->image_path)
+                                        <img src="{{ Storage::url($product->image_path) }}" class="rounded" alt="{{ $product->name }}" width="50">
+                                    @else
+                                        <img src="https://via.placeholder.com/50" class="rounded" alt="No Image">
+                                    @endif
+                                </td>
+                                <td>{{ $product->{"name_" . request('language', 'fr')} }}</td>
+                                <td>{{ Str::limit($product->description, 50) }}</td>
+                                <td>{{ number_format($product->price, 2) }}€</td>
+                                <td>{{ number_format($product->delivery_price, 2) }}€</td>
+                                <td>{{ $product->category->{"name_" . request('language', 'fr')} }}</td>
+                                <td>
+                                    @foreach($product->ingredients as $ingredient)
+                                        <span class="badge bg-secondary">{{ $ingredient->{"name_" . request('language', 'fr')} }}</span>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-primary">✏️</a>
+                                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">🗑️</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
 
-            <!-- Pagination -->
-            <div class="d-flex justify-content-center">
-                {{ $products->links() }}
+                <!-- Pagination -->
+                <div class="d-flex justify-content-center">
+                    {{ $products->appends(request()->query())->links() }}
+                </div>
             </div>
         </div>
     </div>
