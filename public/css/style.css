@@ -5,6 +5,9 @@
     justify-content: center;
     width: 100%;
 }
+body{
+    font-family: 'Poppins', sans-serif;
+}
 
 .frame .div {
     background-color: #ffffff;

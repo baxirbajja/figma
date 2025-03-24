@@ -1,6 +1,6 @@
 /* Dashboard Header */
 .dashboard-header {
-    width: calc(100% - 292px);
+    width: calc(100% - 299px);
     height: 96px;
     margin-left: 292px;
     background-color: #ffffff;
@@ -40,8 +40,7 @@
 /* User Actions */
 .user-actions {
     display: flex;
-    align-items: center;
-    gap: 20px;
+    align-items: space-around;
 }
 
 .notification-button,
@@ -96,8 +95,8 @@
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 8px 0;
-    min-width: 200px;
+    padding: 8px 10px !important;
+    width: 250px !important;
     display: none;
 }
 
@@ -107,13 +106,15 @@
 
 .dropdown-item {
     display: flex;
-    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
     padding: 8px 16px;
     color: #5e5e5e;
     text-decoration: none;
     font-family: "Poppins", sans-serif;
     font-size: 14px;
     transition: background-color 0.2s;
+    width: fit-content;
 }
 
 .dropdown-item:hover {
@@ -130,4 +131,12 @@
 /* Add this new style for the main content */
 main {
     padding-top: 96px !important;
+}
+
+svg{
+    width: 40px;
+}
+.logo-header{
+    width: 60px !important;
+    height: 60px !important;
 }

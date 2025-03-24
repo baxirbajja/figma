@@ -123,23 +123,24 @@
                             @enderror
                         </div>
 
-                        <div class="mb-3">
-                            <label for="sku" class="form-label">SKU</label>
-                            <input type="text" class="form-control @error('sku') is-invalid @enderror" 
-                                   id="sku" name="sku" value="{{ old('sku') }}" required>
-                            @error('sku')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        <!-- Add after description -->
+<div class="mb-3">
+    <label for="sku" class="form-label">SKU</label>
+    <input type="text" class="form-control @error('sku') is-invalid @enderror" 
+           id="sku" name="sku" value="{{ old('sku') }}" required>
+    @error('sku')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
 
-                        <div class="mb-3">
-                            <label for="stock" class="form-label">Stock</label>
-                            <input type="number" class="form-control @error('stock') is-invalid @enderror" 
-                                   id="stock" name="stock" value="{{ old('stock') }}" required>
-                            @error('stock')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+<div class="mb-3">
+    <label for="stock" class="form-label">Stock</label>
+    <input type="number" class="form-control @error('stock') is-invalid @enderror" 
+           id="stock" name="stock" value="{{ old('stock') }}" required min="0">
+    @error('stock')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
 
                         <div class="mb-3">
                             <label for="image" class="form-label">Image</label>
@@ -167,46 +168,25 @@
                         <div class="mb-3">
                             <label class="form-label">Ingrédients</label>
                             <div class="row">
-                                @foreach($ingredients as $ingredient)
-                                    <div class="col-md-6 mb-3">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="form-check mb-2">
-                                                    <input class="form-check-input ingredient-checkbox" type="checkbox" 
-                                                           id="ingredient_{{ $ingredient->id }}"
-                                                           data-ingredient-id="{{ $ingredient->id }}">
-                                                    <label class="form-check-label" for="ingredient_{{ $ingredient->id }}">
-                                                        {{ $ingredient->name }}
-                                                    </label>
-                                                </div>
-                                                <div class="ingredient-details" id="details_{{ $ingredient->id }}" style="display: none;">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <input type="number" step="0.01" 
-                                                                   class="form-control mb-2"
-                                                                   name="ingredients[{{ $ingredient->id }}][quantity]"
-                                                                   placeholder="Quantité"
-                                                                   disabled>
-                                                            <input type="hidden" name="ingredients[{{ $ingredient->id }}][id]" 
-                                                                   value="{{ $ingredient->id }}">
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <select class="form-select"
-                                                                    name="ingredients[{{ $ingredient->id }}][unit]"
-                                                                    disabled>
-                                                                <option value="g">Grammes (g)</option>
-                                                                <option value="kg">Kilogrammes (kg)</option>
-                                                                <option value="ml">Millilitres (ml)</option>
-                                                                <option value="l">Litres (l)</option>
-                                                                <option value="pcs">Pièces (pcs)</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
+                            @foreach($ingredients as $ingredient)
+    <div class="col-md-6 mb-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" 
+                   name="ingredients[{{ $ingredient->id }}][id]" 
+                   value="{{ $ingredient->id }}"
+                   id="ingredient_{{ $ingredient->id }}">
+            <label class="form-check-label" for="ingredient_{{ $ingredient->id }}">
+                {{ $ingredient->name_fr }}
+            </label>
+            <input type="number" 
+                   class="form-control mt-1" 
+                   name="ingredients[{{ $ingredient->id }}][quantity]" 
+                   placeholder="Quantity"
+                   step="0.01"
+                   min="0">
+        </div>
+    </div>
+@endforeach
                             </div>
                         </div>
 
