@@ -23,6 +23,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return view('dashboard');
     })->name('home');
+    Route::get('/how', function () {
+        return view('how');
+    })->name('how');
 
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -31,6 +34,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('products', ProductController::class);
     Route::resource('ingredients', IngredientController::class);
+    
 
     // Categories routes
     Route::prefix('categories')->group(function () {

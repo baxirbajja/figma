@@ -36,7 +36,6 @@
     @endpush
 
     <!-- Include the sidebar -->
-    @include('layouts.sidebar')
     <style>
         body{
             font-family: 'Poppins', sans-serif;
@@ -61,7 +60,7 @@
         .table-item{
 border: 1px solid #E2E8F0;
 margin-bottom: 1rem;
-        }
+}
         thead th {
             color:#5F5F5F;
             font-family: 'Poppins', sans-serif;
@@ -70,7 +69,7 @@ margin-bottom: 1rem;
             padding: 1rem;
             background-color: #FFF !important;
         }
-
+        
         tbody {
             font-family: 'Poppins', sans-serif;
             font-size: 12px;
@@ -88,10 +87,10 @@ margin-bottom: 1rem;
             margin: 0px 1px;
         }
         
-
-
-    </style>
-    <div class="main-content">
+        
+        
+        </style>
+    <div class="main-content ">
         <div class="content">
             <div class="container-fluid px-4" style="background-color: #ffffff;border-radius: 20px;padding: 2rem;box-shadow: -2.8px -2.8px 8px #ffffffcf,5.9px 6.8px 15.5px #becde247,3.5px 3.5px 6px #ffffff26">
                 <h2 class="mb-3" style="padding-bottom: 2rem; font-family: 'Poppins', sans-serif;font-size: 26px;font-weight: 300;color: #5f5f5f;">Gestion des Produits</h2>

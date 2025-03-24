@@ -1,5 +1,15 @@
 <x-app-layout>
-    <div class="container-fluid py-4">
+    <style>
+
+       .card a:hover{
+        background-color: #D22254 !important;
+        color: #ffffff !important;
+       }
+       .card a{
+        height: 50px;
+       }
+    </style>
+    <div class="container-fluid py-4" style=";margin-top:120px; ">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">

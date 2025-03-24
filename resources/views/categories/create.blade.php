@@ -109,7 +109,7 @@
 
                         <!-- Submit Buttons -->
                         <div class="mt-6 flex items-center gap-4">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-danger " style="background-color: #D22254; width: 253px !important;">
                                 <i class="bi bi-check-circle me-2"></i>Créer la catégorie
                             </button>
                             <a href="{{ route('categories.manage') }}" class="btn btn-secondary">

@@ -78,15 +78,29 @@ margin-bottom: 1rem;
             border-radius: 4px;box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);border: none;
         }
         
-        
+        .sidebar {
+    transition: transform 0.3s ease;
+}
+
+.sidebar.collapsed {
+    transform: translateX(-100%);
+}
+.main-content-all {
+    transition: margin-left 0.3s ease;
+    margin-left: 250px; /* adjust this to match your sidebar width */
+}
+
+.main-content-all.expanded {
+    margin-left: 0;
+}
 
     </style>
-    <div class="min-h-screen">
+    <div class="min-h-screen ">
         @auth   
             @include('layouts.sidebar')
             @include('layouts.header', ['notifications_count' => 1])
             
-            <main class="content-wrapper">
+            <main class="content-wrapper main-content-all">
                 <!-- Page Heading -->
                 @if (isset($header))
                     <header class="bg-white shadow">
@@ -95,7 +109,7 @@ margin-bottom: 1rem;
                         </div>
                     </header>
                 @endif
-
+            
                 <!-- Page Content -->
                 {{ $slot }}
             </main>
@@ -106,5 +120,17 @@ margin-bottom: 1rem;
 
     @stack('modals')
     @stack('scripts')
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.querySelector('.main-content-all'); 
+
+    sidebarToggle.addEventListener('click', function() {
+        sidebar.classList.toggle('collapsed');
+        mainContent.classList.toggle('expanded'); 
+    });
+});
+</script>
 </body>
 </html>
